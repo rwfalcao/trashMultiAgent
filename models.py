@@ -3,7 +3,15 @@ from osbrain import run_nameserver
 import random
 import matplotlib.pyplot as plt
 
+# classe da central de tomada de decisão
+class mainStationAgent():
+    def __init__(self, alias):
+        self.name = alias
+        self.posX = 15
+        self.posY = 15
+        self.agent = run_agent(alias)
 
+# classe das lixeiras
 class binAgent():
     agentList = list()
     def __init__(self,alias):
@@ -17,8 +25,8 @@ class binAgent():
 
 class graph():
     def __init__(self, agentList, mainStation):
-        self.xMainStation = mainStation.xPos
-        self.yMainStation = mainStation.yPos
+        self.xMainStation = mainStation.posX
+        self.yMainStation = mainStation.posY
         self.xCoords = list()
         self.yCoords = list()
         for agent in agentList:
@@ -55,8 +63,3 @@ class graph():
         plt.show()
         
 
-class mainStationAgent():
-    def __init__(self, alias):
-        self.xPos = 15
-        self.yPos = 15
-        self.agent = run_agent(alias)
