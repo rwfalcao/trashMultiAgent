@@ -1,37 +1,54 @@
 from models import *
-       
-class mainStationAgent():
-    def __init__(self):
-        self.xPos = 15
-        self.yPos = 15
+import time
 
+# Tratamento que o agente central vai receber
+def reply(agent, message):
+    yield 'agent '+ str(agent.name) +' Received ' + str(message)
+    
 if __name__ == '__main__':
 
+    # inicia o servidor
     ns = run_nameserver()
-    alice = binAgent('Alice')
-    bob = binAgent('Bob')
-    kevin = binAgent('Kevin')
 
-    addr = alice.agent.bind('REP', alias='main', handler=reply)
-    bob.agent.connect(addr, alias='main')
-    kevin.agent.connect(addr, alias='main')
-    
-    for i in range(10):
-        test = dict()
-        test['bob'+str(i)] = i
-        bob.agent.send('main', test)
-        reply = bob.agent.recv('main')
-        print(reply)
+    # declaração do agente principal, responsável pela tomada de decisão
+    mainStation = mainStationAgent('MainStation')
+    addr = mainStation.agent.bind('REP', alias='main', handler=reply)
+  
+    # lista de todas as latas de lixo
+    binDict = dict()
 
-    for i in range(5):
-        test = dict()
-        test['kevin'+str(i)] = i
-        kevin.agent.send('main', test)
-        reply = kevin.agent.recv('main')
-        print(reply)
+    # declaração de 15 latas de lixo com posição randômica
+    for i in range(1,15):
+        tmp = binAgent('bin'+str(i))
+        tmp.agent.connect(addr, alias='main')
+        binDict.update({'bin'+str(i):tmp})
 
-    
+    # rotina que simula o conteúdo das lixeiras aumentando ao longo de um dia
+    for j in range(1,24):
+        print('HORA:' +str(j)+':00')
+        print()
+        for i in range(1,15):
+            agent = binDict['bin'+str(i)]
+            if random.randint(0,100) > 75:
+                agent.weight += random.randint(1,15)
+            agent.agent.send('main', {agent.name:agent.weight})
+            reply = agent.agent.recv('main')
+            binDict.update({'bin'+str(i):agent})
+            print(reply)
+        print()
+        #time.sleep(3)
 
+    selectedBins = list()
+    emptyBins = list()
+
+    for key, val in binDict.items():
+        if val.weight > 70:
+            selectedBins.append(val)
+        else:
+            emptyBins.append(val)
+        
+
+    gp = graph(binAgent.agentList, mainStation)
+    gp.plotInitialGraph()
+    gp.plotSelectedBinsGraph(selectedBins, emptyBins)
     ns.shutdown()
-    gp = graph(binAgent.agentList)
-    gp.plotGraph()
