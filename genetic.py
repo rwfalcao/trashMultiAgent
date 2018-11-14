@@ -1,7 +1,17 @@
-import itertools
 from graph import *
+import itertools
+
+def pathCalculation(pathList):
+    dist = 0
+    for i in range(0, len(pathList) -1):
+        nextNodeLabel = pathList[i+1][0]
+        dist += pathList[i][1][0][nextNodeLabel]
+    return dist
 
 class GeneticAlgorithm():
+
+    def __init__(self):
+        pass
 
     #recebe o resultado completo do algoritmo all_pairs_dijkstra
     def generatePopulation(graphDict):
@@ -28,10 +38,13 @@ class GeneticAlgorithm():
 
         return population
 
+    
+
+
     def fitnessFunction(population):
         rankedPopulation = list()
         for individual in population:
-            dist = Graph.pathCalculation(individual)
+            dist = pathCalculation(individual)
             rankedPopulation.append([dist,individual])
         
         rankedPopulation = sorted(rankedPopulation, key=lambda tup: tup[0])

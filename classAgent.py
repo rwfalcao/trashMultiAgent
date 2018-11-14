@@ -51,12 +51,12 @@ if __name__ == '__main__':
         else:
             emptyBins.append(val)
         
-    graphDict = Graph.graphAlgorithm(selectedBins, mainStation)
+    graphDict = Graph().graphAlgorithm(selectedBins, mainStation)
 
     population = GeneticAlgorithm.generatePopulation(graphDict)
-    print(population)
+    #print(population)
 
-    #GeneticAlgorithm.fitnessFunction(population)
+    print(GeneticAlgorithm.fitnessFunction(population))
 
 
     

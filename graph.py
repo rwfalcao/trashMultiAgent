@@ -1,8 +1,11 @@
 from models import *
 from classAgent import *
 
-class Graph():
-    def graphAlgorithm(selectedBins, mainStation):
+class Graph(object):
+    def __init__(self):
+        pass
+
+    def graphAlgorithm(self, selectedBins, mainStation):
         G = nx.Graph()
         graphList = list()
         for bin in selectedBins:
@@ -37,9 +40,9 @@ class Graph():
 
         return result   
 
-    def pathCalculation(pathList):
+    def pathCalculation(self, pathList):
         dist = 0
         for i in range(0, len(pathList) -1):
             nextNodeLabel = pathList[i+1][0]
             dist += pathList[i][1][0][nextNodeLabel]
-        return dist
+        return 0
