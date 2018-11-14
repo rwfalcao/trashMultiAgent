@@ -2,6 +2,8 @@ from models import *
 import time
 import networkx as nx
 from math import hypot
+from graph import *
+from genetic import *
 
 # Tratamento que o agente central vai receber
 def reply(agent, message):
@@ -49,40 +51,16 @@ if __name__ == '__main__':
         else:
             emptyBins.append(val)
         
-    G = nx.Graph()
-    graphList = list()
-    for bin in selectedBins:
-        #print(vars(bin))
-        G.add_node(vars(bin)['name'], 
-        posX=vars(bin)['posX'],
-        posY=vars(bin)['posY']
-        )
-    G.add_node(vars(mainStation)['name'],
-    posX=vars(mainStation)['posX'],
-    posY=vars(mainStation)['posY']
-    )
-        
-    #print(graphList)
-      
-    nodeList = list(G.nodes(data=True))
-    #print(nodeList)
-    #print()
-    outerTmp = nodeList
+    graphDict = Graph.graphAlgorithm(selectedBins, mainStation)
 
-    for id, node in enumerate(nodeList):
-        tmpList = nodeList[0:id]+nodeList[id+1:]
-        for innerNode in tmpList:
-            weight = abs(hypot(int(innerNode[1]['posY']) - int(node[1]['posX']), int(innerNode[1]['posY']) - int(node[1]['posY'])))
-            G.add_edge(node[0], innerNode[0], weight=weight )
+    population = GeneticAlgorithm.generatePopulation(graphDict)
+    print(population)
+
+    #GeneticAlgorithm.fitnessFunction(population)
+
+
     
-    nodeList = list(G.edges(data=True))
-    #print(nodeList)
-    result = dict(nx.all_pairs_dijkstra(G))
     
-    print(result)    
-        
-
-
     gp = graph(binAgent.agentList, mainStation)
     gp.plotInitialGraph()
     gp.plotSelectedBinsGraph(selectedBins, emptyBins)
