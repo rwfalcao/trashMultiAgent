@@ -38,9 +38,6 @@ class GeneticAlgorithm():
 
         return population
 
-    
-
-
     def fitnessFunction(population):
         rankedPopulation = list()
         for individual in population:

@@ -38,7 +38,7 @@ class Graph(object):
         
         #print(result)
 
-        return result   
+        return list(G.nodes(data=True)), result   
 
     def pathCalculation(self, pathList):
         dist = 0

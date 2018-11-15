@@ -35,10 +35,11 @@ class graph():
 
     def plotInitialGraph(self):
         plt.figure(1)
-        plt.plot(self.xCoords, self.yCoords, 'ro')
+        plt.plot(self.xCoords, self.yCoords, 'bo')
         plt.plot([self.xMainStation],[self.yMainStation], 'Dg')
         plt.title('Posição das lixeiras')
         plt.axis([0, 30, 0, 30])
+        plt.show()
         
 
     def plotSelectedBinsGraph(self, selectedBins, emptybins):
@@ -61,5 +62,35 @@ class graph():
         plt.axis([0, 30, 0, 30])
         plt.title('Lixeiras cheias')
         plt.show()
+
+    def plotShortestPath(self, shortestPath, emptybins):
+        xShortest = list()
+        yShortest = list()
+        xEmpty = list()
+        yEmpty = list()
+        for i in range(0, len(shortestPath)):
+            xShortest.append(shortestPath[i][1]['posX'])
+            yShortest.append(shortestPath[i][1]['posY'])
+            print(shortestPath[i])
+
+        for bin in emptybins:
+            xEmpty.append(bin.posX)
+            yEmpty.append(bin.posY)
+
+        #print(xShortest)
+        #print(yShortest)
+        
+        plt.figure(2)
+        for i in range(0, len(xShortest)):
+            plt.plot(xShortest[i:i+2], yShortest[i:i+2], 'ro-')
+        plt.plot(xEmpty, yEmpty, 'bo')
+        plt.plot([self.xMainStation],[self.yMainStation], 'Dg')
+        plt.axis([0, 30, 0, 30])
+        plt.title('Lixeiras cheias')
+        plt.show()
+
+
+
+
         
 
