@@ -2,10 +2,13 @@ from graph import *
 import itertools
 
 def pathCalculation(pathList):
+       
     dist = 0
     for i in range(0, len(pathList) -1):
         nextNodeLabel = pathList[i+1][0]
         dist += pathList[i][1][0][nextNodeLabel]
+    #print(dist)
+    #print("-------")
     return dist
 
 class GeneticAlgorithm():
@@ -42,8 +45,12 @@ class GeneticAlgorithm():
         rankedPopulation = list()
         for individual in population:
             dist = pathCalculation(individual)
-            rankedPopulation.append([dist,individual])
+            rankedPopulation.append((dist,individual))
         
-        rankedPopulation = sorted(rankedPopulation, key=lambda tup: tup[0])
+        #rankedPopulation = sorted(rankedPopulation, key=lambda tup: tup[0])
+        rankedPopulation.sort()
+        print('abc')
+        #print(rankedPopulation[0:10])
+        print('abc')
 
         return rankedPopulation

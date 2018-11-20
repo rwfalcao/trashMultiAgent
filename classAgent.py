@@ -37,20 +37,20 @@ if __name__ == '__main__':
         print()
         for i in range(1,15):
             agent = binDict['bin'+str(i)]
-            if random.randint(0,100) > 75:
+            if random.randint(0,100) > 80:
                 agent.weight += random.randint(1,20)
             agent.agent.send('main', {agent.name:agent.weight})
             reply = agent.agent.recv('main')
             binDict.update({'bin'+str(i):agent})
             print(reply)
         print()
-        #time.sleep(3)
+        #time.sleep(2)
 
     selectedBins = list()
     emptyBins = list()
 
     for key, val in binDict.items():
-        if val.weight > 70:
+        if val.weight > 5:
             selectedBins.append(val)
         else:
             emptyBins.append(val)
@@ -72,10 +72,10 @@ if __name__ == '__main__':
 
 
     population = GeneticAlgorithm.generatePopulation(graphDict)
-    #print(population)
+    #print(population[0])
 
     shortestPath = GeneticAlgorithm.fitnessFunction(population)[0]
-    #print(shortestPath)
+    #print(GeneticAlgorithm.fitnessFunction(population)[:10])
     spList = list()
     for agent in shortestPath[1]:
         spList.append(agent[0])
