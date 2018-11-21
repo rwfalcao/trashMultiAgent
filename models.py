@@ -89,8 +89,3 @@ class graph():
         plt.title('Lixeiras cheias')
         plt.show()
 
-
-
-
-        
-

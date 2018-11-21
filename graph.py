@@ -29,7 +29,7 @@ class Graph(object):
         for id, node in enumerate(nodeList):
             tmpList = nodeList[0:id]+nodeList[id+1:]
             for innerNode in tmpList:
-                weight = abs(hypot(int(innerNode[1]['posX']) - int(node[1]['posX']), int(innerNode[1]['posY']) - int(node[1]['posY'])))
+                weight = hypot(abs(int(innerNode[1]['posX']) - int(node[1]['posX'])), abs(int(innerNode[1]['posY']) - int(node[1]['posY'])))
                 G.add_edge(node[0], innerNode[0], weight=weight )
         
         nodeList = list(G.edges(data=True))
@@ -45,4 +45,4 @@ class Graph(object):
         for i in range(0, len(pathList) -1):
             nextNodeLabel = pathList[i+1][0]
             dist += pathList[i][1][0][nextNodeLabel]
-        return 0
+        return dist
