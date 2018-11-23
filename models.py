@@ -37,7 +37,7 @@ class graph():
         plt.figure(1)
         plt.plot(self.xCoords, self.yCoords, 'bo')
         plt.plot([self.xMainStation],[self.yMainStation], 'Dg')
-        plt.title('Posição das lixeiras')
+        plt.title('Posição das Lixeiras')
         plt.axis([0, 30, 0, 30])
         plt.show()
         
@@ -60,7 +60,7 @@ class graph():
         plt.plot(xSelected, ySelected, 'ro')
         plt.plot([self.xMainStation],[self.yMainStation], 'Dg')
         plt.axis([0, 30, 0, 30])
-        plt.title('Lixeiras cheias')
+        plt.title('Lixeiras Cheias')
         plt.show()
 
     def plotShortestPath(self, shortestPath, emptybins):
@@ -71,7 +71,7 @@ class graph():
         for i in range(0, len(shortestPath)):
             xShortest.append(shortestPath[i][1]['posX'])
             yShortest.append(shortestPath[i][1]['posY'])
-            print(shortestPath[i])
+            #print(shortestPath[i])
 
         for bin in emptybins:
             xEmpty.append(bin.posX)
@@ -86,6 +86,6 @@ class graph():
         plt.plot(xEmpty, yEmpty, 'bo')
         plt.plot([self.xMainStation],[self.yMainStation], 'Dg')
         plt.axis([0, 30, 0, 30])
-        plt.title('Lixeiras cheias')
+        plt.title('Melhor Caminho')
         plt.show()
 
