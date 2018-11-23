@@ -2,6 +2,7 @@ from osbrain import run_agent
 from osbrain import run_nameserver
 import random
 import matplotlib.pyplot as plt
+from graph import *
 
 # classe da central de tomada de decisão
 class mainStationAgent():
@@ -10,6 +11,61 @@ class mainStationAgent():
         self.posX = 15
         self.posY = 15
         self.agent = run_agent(alias)
+
+    #simula um dia com valores randômicos de uso das latas de lixo
+    def simulateDay(self,binDict):
+        for j in range(1,24):
+            print('HORA:' +str(j)+':00')
+            print()
+            for i in range(1,15):
+                agent = binDict['bin'+str(i)]
+                if random.randint(0,100) > 75:
+                    agent.weight += random.randint(1,20)
+                agent.agent.send('main', {agent.name:agent.weight})
+                reply = agent.agent.recv('main')
+                binDict.update({'bin'+str(i):agent})
+                print(reply)
+            print()
+            #time.sleep(3)
+        return binDict
+
+    # separação das lixeiras entre aquelas que vão precisar fazer parte da rota e as que não
+    def chooseBins(self, binDict, gp):
+        selectedBins = list()
+        emptyBins = list()
+
+        for key, val in binDict.items():
+            if val.weight > 70:
+                selectedBins.append(val)
+            else:
+                emptyBins.append(val)
+        gp.plotSelectedBinsGraph(selectedBins, emptyBins)
+        return selectedBins, emptyBins
+
+    def generateGraph(self, selectedBins):
+        nodeList = list()
+        graphDict = {}
+        nodeList, graphDict = Graph().graphAlgorithm(selectedBins, self)
+        #print(nodeList)
+
+        agentDict = dict()
+
+        for agent in nodeList:
+            agentDict[agent[0]] = agent[1]
+
+        return nodeList, graphDict, agentDict
+
+    # geração de uma lista do melhor caminho com as coordenadas de seus nós 
+    def generateCoordList(self, shortestPath, agentDict):
+        spList = list()
+        for agent in shortestPath[1]:
+            spList.append(agent[0])
+      
+        coordsList = list()
+        for agent in spList:
+            coordsList.append((agent,agentDict[agent]))
+        
+        return coordsList
 
 # classe das lixeiras
 class binAgent():
